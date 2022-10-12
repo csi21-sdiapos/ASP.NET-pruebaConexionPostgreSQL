@@ -19,29 +19,18 @@ namespace pruebaConexionPostgreSQLV.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index(ConexionPostgreSQL conexionPostgreSQL)
+        public IActionResult Index()
         {
             System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Entra en Index\n");
 
-            // CONSTANTES
-            const string HOST = VariablesConexionPostgreSQL.HOST;
-            const string PORT = VariablesConexionPostgreSQL.PORT;
-            const string USER = VariablesConexionPostgreSQL.USER;
-            const string PASS = VariablesConexionPostgreSQL.PASS;
-            const string DB = VariablesConexionPostgreSQL.DB;
-
-            // CONEXIÓN
-            NpgsqlConnection conexionGenerada = new NpgsqlConnection();
-            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
-
-            /************** Obtenemos los alumnos de la BBDD y los mostramos por consola ***************/
-
-            var estadoGenerada = string.Empty;
-            estadoGenerada = conexionGenerada.State.ToString();
-            System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Estado conexión generada: " + estadoGenerada + "\n");
+            /************ Declaramos un objeto de nuestra clase ConexionPostgreSQL y lo inicializamos () ************/
+            // para esto usamos su constructor vacío (que cuando una clase no tiene constructor definido, predetermiandamente lleva el constructor vacío)
+            ConexionPostgreSQL conexionPostgreSQL = new ConexionPostgreSQL(); // este objeto se lo iremos pasando como parámetro en las llamadas a nuestras consultas
+            
+            /***************** Obtenemos los alumnos de la BBDD y los mostramos por consola ***************/
 
             List<AlumnoDTO> listaAlumnos = new List<AlumnoDTO>();
-            listaAlumnos = ConsultasPostgreSQL.ConsultaSelectAlumnos(conexionGenerada);
+            listaAlumnos = ConsultasPostgreSQL.ConsultaSelectAlumnos(conexionPostgreSQL);
 
             System.Console.WriteLine("\n\n\tID\tNombre\tApellidos\tEmail");
             System.Console.WriteLine("\t------------------------------------------------");
@@ -51,27 +40,19 @@ namespace pruebaConexionPostgreSQLV.Controllers
 
             /************* Obtenemos las asignaturas de la BBDD y los mostramos por consola ************/
 
-            estadoGenerada = string.Empty;
-            estadoGenerada = conexionGenerada.State.ToString();
-            System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Estado conexión generada: " + estadoGenerada + "\n");
-
             List<AsignaturaDTO> listaAsignaturas = new List<AsignaturaDTO>();
-            listaAsignaturas = ConsultasPostgreSQL.ConsultaSelectAsignaturas(conexionGenerada);
+            listaAsignaturas = ConsultasPostgreSQL.ConsultaSelectAsignaturas(conexionPostgreSQL);
 
             System.Console.WriteLine("\n\n\tID Asig.\tNombre Asig.");
             System.Console.WriteLine("\t-----------------------");
 
             foreach (AsignaturaDTO asignatura in listaAsignaturas)
                 System.Console.WriteLine(asignatura.ToString());
-            
+
             /* Obtenemos la relación entre alumnos y asignaturas asi de la BBDD y los mostramos por consola */
             
-            estadoGenerada = string.Empty;
-            estadoGenerada = conexionGenerada.State.ToString();
-            System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Estado conexión generada: " + estadoGenerada + "\n");
-
             List<RelAlumAsigDTO> listaRelAlumAsig = new List<RelAlumAsigDTO>();
-            listaRelAlumAsig = ConsultasPostgreSQL.ConsultaSelectRelAlumAsig(conexionGenerada);
+            listaRelAlumAsig = ConsultasPostgreSQL.ConsultaSelectRelAlumAsig(conexionPostgreSQL);
 
             System.Console.WriteLine("\n\n\tID Alum.\tNombre Alum.\tID Asig.\tNombre Asig.");
             System.Console.WriteLine("\t------------------------------------------------------------");
@@ -81,14 +62,9 @@ namespace pruebaConexionPostgreSQLV.Controllers
             
             /************* Obtenemos los profesores de la BBDD y los mostramos por consola ************/
 
-            estadoGenerada = string.Empty;
-            estadoGenerada = conexionGenerada.State.ToString();
-            System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Estado conexión generada: " + estadoGenerada + "\n");
-
             List<ProfesorDTO> listaProfesores = new List<ProfesorDTO>();
-            listaProfesores = ConsultasPostgreSQL.ConsultaSelectProfesores(conexionGenerada);
+            listaProfesores = ConsultasPostgreSQL.ConsultaSelectProfesores(conexionPostgreSQL);
 
-            //System.Console.WriteLine("\n\n\tID Asig.\tNombre\tID Prof.\tProfesor");
             System.Console.WriteLine("\n\n\tID\tNombre\t\tApellidos\tEmail");
             System.Console.WriteLine("\t------------------------------------------------");
 
@@ -97,36 +73,23 @@ namespace pruebaConexionPostgreSQLV.Controllers
 
             /* Obtenemos la relación entre profesores y asignaturas asi de la BBDD y los mostramos por consola */
 
-            estadoGenerada = string.Empty;
-            estadoGenerada = conexionGenerada.State.ToString();
-            System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Estado conexión generada: " + estadoGenerada + "\n");
-
             List<RelProfAsigDTO> listaRelProfAsig = new List<RelProfAsigDTO>();
-            listaRelProfAsig = ConsultasPostgreSQL.ConsultaSelectRelProfAsig(conexionGenerada);
+            listaRelProfAsig = ConsultasPostgreSQL.ConsultaSelectRelProfAsig(conexionPostgreSQL);
 
-            //System.Console.WriteLine("\n\n\tID Asig.\tNombre\tID Prof.\tProfesor");
             System.Console.WriteLine("\n\n\tID Prof.\tNombre Prof.\t\tID Asig.\tNombre Asig.");
             System.Console.WriteLine("\t------------------------------------------------------------");
 
             foreach (RelProfAsigDTO relProfAsig in listaRelProfAsig)
                 System.Console.WriteLine(relProfAsig.ToString());
-            
-            /************************* Hacemos un insert de un alumno *********************/
 
-            estadoGenerada = string.Empty;
-            estadoGenerada = conexionGenerada.State.ToString();
-            System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Estado conexión generada: " + estadoGenerada + "\n");
+            /*************************** Hacemos un insert de un alumno ************************/
 
-            ConsultasPostgreSQL.ConsultaInsertAlumnos(conexionGenerada);
+            ConsultasPostgreSQL.ConsultaInsertAlumnos(conexionPostgreSQL);
 
-            /************** Obtenemos los alumnos de la BBDD y los mostramos por consola ***************/
-
-            estadoGenerada = string.Empty;
-            estadoGenerada = conexionGenerada.State.ToString();
-            System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Estado conexión generada: " + estadoGenerada + "\n");
+            /***************** Obtenemos los alumnos de la BBDD y los mostramos por consola ***************/
 
             listaAlumnos = new List<AlumnoDTO>();
-            listaAlumnos = ConsultasPostgreSQL.ConsultaSelectAlumnos(conexionGenerada);
+            listaAlumnos = ConsultasPostgreSQL.ConsultaSelectAlumnos(conexionPostgreSQL);
 
             System.Console.WriteLine("\n\n\tID\tNombre\tApellidos\tEmail");
             System.Console.WriteLine("\t------------------------------------------------");
@@ -134,11 +97,10 @@ namespace pruebaConexionPostgreSQLV.Controllers
             foreach (AlumnoDTO alumno in listaAlumnos)
                 System.Console.WriteLine(alumno.ToString());
 
-            // CERRAMOS LA CONEXIÓN
-            System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Cierre de la conexión\n");
-            conexionGenerada.Close();
 
-            // y devolvemos la vista
+            /**** finalmente devolvemos la vista, al igual que cualquier otro método del tipo IActionResult ***/
+            System.Console.WriteLine("\n\n\t[INFORMACIÓN-HomeController-Index] Lógica del Index finalizada\n");
+
             return View();
         }
 

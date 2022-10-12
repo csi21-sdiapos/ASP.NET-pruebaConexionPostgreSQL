@@ -1,26 +1,50 @@
 ﻿using Npgsql;
+using pruebaConexionPostgreSQLV.Models.Conexiones;
 using pruebaConexionPostgreSQLV.Models.DTOs;
 using pruebaConexionPostgreSQLV.Models.ToDTOs;
+using pruebaConexionPostgreSQLV.Util;
 
 namespace pruebaConexionPostgreSQLV.Models.Consultas
 {
     public class ConsultasPostgreSQL
     {
-        
+        // CONSTANTES
+        const string HOST = VariablesConexionPostgreSQL.HOST;
+        const string PORT = VariablesConexionPostgreSQL.PORT;
+        const string USER = VariablesConexionPostgreSQL.USER;
+        const string PASS = VariablesConexionPostgreSQL.PASS;
+        const string DB = VariablesConexionPostgreSQL.DB;
+
         // MÉTODOS
-        public static List<AlumnoDTO> ConsultaSelectAlumnos(NpgsqlConnection conexionGenerada)
+        public static List<AlumnoDTO> ConsultaSelectAlumnos(ConexionPostgreSQL conexionPostgreSQL)
         {
             List<AlumnoDTO> listaAlumnos = new List<AlumnoDTO>();
+     
+            // Declaramos una conexión del tipo de nuestro NuGet de PostgreSQL, la inicializamos y construímos la conexión con los parámetros de nuestra BBDD previamente definidos en otra clase, pero traídos como constantes aquí (por razones de seguridad y abstracción)
+            NpgsqlConnection conexionGenerada = new NpgsqlConnection();
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+
+            // Declaramos una variable para mostrar el flujo del programa por la consola y para debugear mejor en un futuro
+            var estadoGenerada = string.Empty;
+            estadoGenerada = conexionGenerada.State.ToString();
+            System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Estado conexión generada: " + estadoGenerada + "\n");
 
             try
             {
+                // Definimos la consulta y la ejecutamos
                 NpgsqlCommand consulta = new NpgsqlCommand("SELECT * FROM \"EjemploInicial\".\"alumnos\"", conexionGenerada);
                 NpgsqlDataReader resultadoConsulta = consulta.ExecuteReader();
 
+                // Guardamos en una lista los datos obtenidos de la consulta select
                 listaAlumnos = PostgreSQLtoDTO.ConsultaSelectAlumnosToDTO(resultadoConsulta);
 
+                // Cerramos el flujo de los datos resultantes de la consulta
                 System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre del conjunto de datos\n");
                 resultadoConsulta.Close();
+
+                // Cerramos la conexión a nuestra BBDD
+                System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre de la conexión\n");
+                conexionGenerada.Close();
             }
             catch (Exception e)
             {
@@ -30,9 +54,16 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
             return listaAlumnos;
         }
 
-        public static List<AsignaturaDTO> ConsultaSelectAsignaturas(NpgsqlConnection conexionGenerada)
+        public static List<AsignaturaDTO> ConsultaSelectAsignaturas(ConexionPostgreSQL conexionPostgreSQL)
         {
             List<AsignaturaDTO> listaAsignaturas = new List<AsignaturaDTO>();
+
+            NpgsqlConnection conexionGenerada = new NpgsqlConnection();
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+
+            var estadoGenerada = string.Empty;
+            estadoGenerada = conexionGenerada.State.ToString();
+            System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Estado conexión generada: " + estadoGenerada + "\n");
 
             try
             {
@@ -43,6 +74,9 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
 
                 System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre del conjunto de datos\n");
                 resultadoConsulta.Close();
+
+                System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre de la conexión\n");
+                conexionGenerada.Close();
             }
             catch (Exception e)
             {
@@ -52,9 +86,16 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
             return listaAsignaturas;
         }
 
-        public static List<RelAlumAsigDTO> ConsultaSelectRelAlumAsig(NpgsqlConnection conexionGenerada)
+        public static List<RelAlumAsigDTO> ConsultaSelectRelAlumAsig(ConexionPostgreSQL conexionPostgreSQL)
         {
             List<RelAlumAsigDTO> listaRelAlumAsig = new List<RelAlumAsigDTO>();
+
+            NpgsqlConnection conexionGenerada = new NpgsqlConnection();
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+
+            var estadoGenerada = string.Empty;
+            estadoGenerada = conexionGenerada.State.ToString();
+            System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Estado conexión generada: " + estadoGenerada + "\n");
 
             try
             {
@@ -65,6 +106,9 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
 
                 System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre del conjunto de datos\n");
                 resultadoConsulta.Close();
+
+                System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre de la conexión\n");
+                conexionGenerada.Close();
             }
             catch (Exception e)
             {
@@ -74,9 +118,16 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
             return listaRelAlumAsig;
         }
 
-        public static List<ProfesorDTO> ConsultaSelectProfesores(NpgsqlConnection conexionGenerada)
+        public static List<ProfesorDTO> ConsultaSelectProfesores(ConexionPostgreSQL conexionPostgreSQL)
         {
             List<ProfesorDTO> listaProfesores = new List<ProfesorDTO>();
+
+            NpgsqlConnection conexionGenerada = new NpgsqlConnection();
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+
+            var estadoGenerada = string.Empty;
+            estadoGenerada = conexionGenerada.State.ToString();
+            System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Estado conexión generada: " + estadoGenerada + "\n");
 
             try
             {
@@ -87,6 +138,9 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
 
                 System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre del conjunto de datos\n");
                 resultadoConsulta.Close();
+
+                System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre de la conexión\n");
+                conexionGenerada.Close();
             }
             catch (Exception e)
             {
@@ -96,9 +150,16 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
             return listaProfesores;
         }
 
-        public static List<RelProfAsigDTO> ConsultaSelectRelProfAsig(NpgsqlConnection conexionGenerada)
+        public static List<RelProfAsigDTO> ConsultaSelectRelProfAsig(ConexionPostgreSQL conexionPostgreSQL)
         {
             List<RelProfAsigDTO> listaRelProfAsig = new List<RelProfAsigDTO>();
+
+            NpgsqlConnection conexionGenerada = new NpgsqlConnection();
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+
+            var estadoGenerada = string.Empty;
+            estadoGenerada = conexionGenerada.State.ToString();
+            System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Estado conexión generada: " + estadoGenerada + "\n");
 
             try
             {
@@ -109,6 +170,9 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
 
                 System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre del conjunto de datos\n");
                 resultadoConsulta.Close();
+
+                System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre de la conexión\n");
+                conexionGenerada.Close();
             }
             catch (Exception e)
             {
@@ -120,8 +184,15 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
 
         /****************************************** INSERTS *******************************************/
 
-        public static void ConsultaInsertAlumnos(NpgsqlConnection conexionGenerada)
+        public static void ConsultaInsertAlumnos(ConexionPostgreSQL conexionPostgreSQL)
         {
+            NpgsqlConnection conexionGenerada = new NpgsqlConnection();
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+
+            var estadoGenerada = string.Empty;
+            estadoGenerada = conexionGenerada.State.ToString();
+            System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Estado conexión generada: " + estadoGenerada + "\n");
+
             try
             {
                 NpgsqlCommand consulta = new NpgsqlCommand("INSERT INTO \"EjemploInicial\".\"alumnos\" (alumno_id, alumno_nombre, alumno_apellidos, alumno_email) VALUES (DEFAULT, 'ivan', 'iglesias', 'ivan@gmail.com')", conexionGenerada);
@@ -129,6 +200,9 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
 
                 System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre del conjunto de datos\n");
                 resultadoConsulta.Close();
+
+                System.Console.WriteLine("\n\n\t[INFORMACIÓN-ConsultasPostgreSQL.cs] Cierre de la conexión\n");
+                conexionGenerada.Close();
             }
             catch (Exception e)
             {
