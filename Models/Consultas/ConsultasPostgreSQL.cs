@@ -8,13 +8,6 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
 {
     public class ConsultasPostgreSQL
     {
-        // CONSTANTES
-        const string HOST = VariablesConexionPostgreSQL.HOST;
-        const string PORT = VariablesConexionPostgreSQL.PORT;
-        const string USER = VariablesConexionPostgreSQL.USER;
-        const string PASS = VariablesConexionPostgreSQL.PASS;
-        const string DB = VariablesConexionPostgreSQL.DB;
-
         // MÉTODOS
         public static List<AlumnoDTO> ConsultaSelectAlumnos(ConexionPostgreSQL conexionPostgreSQL)
         {
@@ -22,7 +15,7 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
      
             // Declaramos una conexión del tipo de nuestro NuGet de PostgreSQL, la inicializamos y construímos la conexión con los parámetros de nuestra BBDD previamente definidos en otra clase, pero traídos como constantes aquí (por razones de seguridad y abstracción)
             NpgsqlConnection conexionGenerada = new NpgsqlConnection();
-            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(VariablesConexionPostgreSQL.HOST, VariablesConexionPostgreSQL.PORT, VariablesConexionPostgreSQL.DB, VariablesConexionPostgreSQL.USER, VariablesConexionPostgreSQL.PASS);
 
             // Declaramos una variable para mostrar el flujo del programa por la consola y para debugear mejor en un futuro
             var estadoGenerada = string.Empty;
@@ -59,7 +52,7 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
             List<AsignaturaDTO> listaAsignaturas = new List<AsignaturaDTO>();
 
             NpgsqlConnection conexionGenerada = new NpgsqlConnection();
-            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(VariablesConexionPostgreSQL.HOST, VariablesConexionPostgreSQL.PORT, VariablesConexionPostgreSQL.DB, VariablesConexionPostgreSQL.USER, VariablesConexionPostgreSQL.PASS);
 
             var estadoGenerada = string.Empty;
             estadoGenerada = conexionGenerada.State.ToString();
@@ -91,7 +84,7 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
             List<RelAlumAsigDTO> listaRelAlumAsig = new List<RelAlumAsigDTO>();
 
             NpgsqlConnection conexionGenerada = new NpgsqlConnection();
-            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(VariablesConexionPostgreSQL.HOST, VariablesConexionPostgreSQL.PORT, VariablesConexionPostgreSQL.DB, VariablesConexionPostgreSQL.USER, VariablesConexionPostgreSQL.PASS);
 
             var estadoGenerada = string.Empty;
             estadoGenerada = conexionGenerada.State.ToString();
@@ -123,7 +116,7 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
             List<ProfesorDTO> listaProfesores = new List<ProfesorDTO>();
 
             NpgsqlConnection conexionGenerada = new NpgsqlConnection();
-            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(VariablesConexionPostgreSQL.HOST, VariablesConexionPostgreSQL.PORT, VariablesConexionPostgreSQL.DB, VariablesConexionPostgreSQL.USER, VariablesConexionPostgreSQL.PASS);
 
             var estadoGenerada = string.Empty;
             estadoGenerada = conexionGenerada.State.ToString();
@@ -155,7 +148,7 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
             List<RelProfAsigDTO> listaRelProfAsig = new List<RelProfAsigDTO>();
 
             NpgsqlConnection conexionGenerada = new NpgsqlConnection();
-            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(VariablesConexionPostgreSQL.HOST, VariablesConexionPostgreSQL.PORT, VariablesConexionPostgreSQL.DB, VariablesConexionPostgreSQL.USER, VariablesConexionPostgreSQL.PASS);
 
             var estadoGenerada = string.Empty;
             estadoGenerada = conexionGenerada.State.ToString();
@@ -187,7 +180,7 @@ namespace pruebaConexionPostgreSQLV.Models.Consultas
         public static void ConsultaInsertAlumnos(ConexionPostgreSQL conexionPostgreSQL)
         {
             NpgsqlConnection conexionGenerada = new NpgsqlConnection();
-            conexionGenerada = conexionPostgreSQL.GeneraConexion(HOST, PORT, DB, USER, PASS);
+            conexionGenerada = conexionPostgreSQL.GeneraConexion(VariablesConexionPostgreSQL.HOST, VariablesConexionPostgreSQL.PORT, VariablesConexionPostgreSQL.DB, VariablesConexionPostgreSQL.USER, VariablesConexionPostgreSQL.PASS);
 
             var estadoGenerada = string.Empty;
             estadoGenerada = conexionGenerada.State.ToString();
